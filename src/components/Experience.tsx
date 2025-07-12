@@ -5,7 +5,7 @@ export default function Experience() {
   const experiences = [
     {
       title: "Founder | AI & Data Developer",
-      company: "Joborbit",
+      company: "the Joborbit",
       logo: "/logos/joborbit.png", // Add logo path here
       location: "Herndon, VA",
       period: "Nov 2024 - Present",

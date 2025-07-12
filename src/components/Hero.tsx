@@ -1,9 +1,48 @@
-import React from 'react';
-import { ChevronDown, Download, Mail, Linkedin, Github } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, Download, Mail, Linkedin, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function Hero() {
+  // State for profile image carousel
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isFlipping, setIsFlipping] = useState(false);
+  
+  const profileImages = [
+    "/assets/profile-image.jpg",
+    "/assets/profile-image2.jpg",
+    "/assets/profile-image3.jpg",
+  ];
+  
+  // Auto-rotate images every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsFlipping(true);
+      setTimeout(() => {
+        setCurrentImage((prev) => (prev + 1) % profileImages.length);
+        setTimeout(() => {
+          setIsFlipping(false);
+        }, 100);
+      }, 750); // Half the flip animation duration
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  // Function to handle manual image navigation
+  const changeImage = (direction) => {
+    setIsFlipping(true);
+    setTimeout(() => {
+      if (direction === 'next') {
+        setCurrentImage((prev) => (prev + 1) % profileImages.length);
+      } else {
+        setCurrentImage((prev) => (prev - 1 + profileImages.length) % profileImages.length);
+      }
+      setTimeout(() => {
+        setIsFlipping(false);
+      }, 100);
+    }, 750); // Half the flip animation duration
+  };
+
   const scrollToNextSection = () => {
-    // Find the next section after hero (typically "about")
     const nextSection = document.getElementById('about');
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth' });
@@ -12,13 +51,13 @@ export default function Hero() {
 
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background Elements */}
+      {/* Background Elements - Keep existing background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900"></div>
       <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%239C92AC%22 fill-opacity=%220.1%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-20"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
+          {/* Content - Keep existing content */}
           <div className="text-center lg:text-left">
             <div className="mb-8">
               <h1 className="text-2xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
@@ -66,36 +105,85 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Professional Photo */}
-          <div className="flex justify-center lg:justify-end">
-            <div className="relative animate-float">
-              {/* Animated gradient border */}
-              <div className="w-80 h-80 rounded-full bg-gradient-to-br from-blue-400 via-teal-400 to-cyan-400 p-2 animate-spin-slow relative">
-                {/* Profile image container */}
-                <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden relative">
-                  {/* The image */}
-                  <img
-                    src="/assets/profile-image.jpg" 
-                    alt="Profile photo with city skyline in background"
-                    className="w-full h-full object-cover animate-subtle-zoom"
-                  />
-                  
-                  {/* Shine effect overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 animate-shine"></div>
+          {/* Professional Profile Image Carousel */}
+          <div className="flex justify-center lg:justify-end mt-6 lg:mt-0">
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+              {/* Image container with clean animation */}
+              <div className="w-full h-full overflow-hidden rounded-xl shadow-xl relative">
+                {/* Profile images with professional fade transition */}
+                {profileImages.map((img, index) => (
+                  <div 
+                    key={index}
+                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+                      currentImage === index 
+                        ? 'opacity-100 z-10 translate-x-0' 
+                        : index < currentImage 
+                          ? 'opacity-0 -translate-x-full z-0' 
+                          : 'opacity-0 translate-x-full z-0'
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`Pavan Jillella profile ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    
+                    {/* Subtle gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-60"></div>
+                  </div>
+                ))}
+                
+                {/* Professional border effect */}
+                <div className={`absolute inset-0 border-2 border-white/20 rounded-xl z-20 transition-opacity duration-500 ${isFlipping ? 'opacity-70' : 'opacity-0'}`}></div>
+                
+                {/* Elegant corner accent */}
+                <div className="absolute top-0 left-0 w-16 h-16 pointer-events-none z-30">
+                  <svg viewBox="0 0 100 100" className="w-full h-full">
+                    <path d="M0,0 L100,0 Q60,0 0,60 Z" fill="rgba(255,255,255,0.3)" />
+                  </svg>
+                </div>
+                
+                {/* Bottom info panel */}
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 z-20">
+                  <div className="flex items-center">
+                    <div className="h-2 w-2 rounded-full bg-emerald-500 mr-2"></div>
+                    <p className="text-white text-sm font-medium">Available for Projects</p>
+                  </div>
                 </div>
               </div>
-
-              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full flex items-center justify-center animate-pulse">
-                <span className="text-2xl">📊</span>
+              
+              {/* Navigation arrows - more subtle positioning */}
+              <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex justify-between px-2 z-30">
+                <button 
+                  onClick={() => changeImage('prev')} 
+                  className="p-1.5 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/40 transition-all duration-300"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-5 h-5 text-white" />
+                </button>
+                <button 
+                  onClick={() => changeImage('next')} 
+                  className="p-1.5 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/40 transition-all duration-300"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-5 h-5 text-white" />
+                </button>
               </div>
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full flex items-center justify-center animate-bounce">
-                <span className="text-xl">🚀</span>
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-18 h-18 rounded-full flex items-center justify-center animate-pulse delay-300">
-                <span className="text-xl">👨‍💻</span>
-              </div>
-              <div className="absolute -top-4 -left-4 w-14 h-14 rounded-full flex items-center justify-center animate-bounce delay-150">
-                <span className="text-lg">🧠</span>
+              
+              {/* Refined indicator dots */}
+              <div className="absolute -bottom-8 inset-x-0 flex justify-center space-x-2 z-20">
+                {profileImages.map((_, index) => (
+                  <button 
+                    key={index}
+                    onClick={() => setCurrentImage(index)}
+                    className={`w-8 h-1.5 rounded-full transition-all ${
+                      index === currentImage 
+                        ? 'bg-blue-600 w-12' 
+                        : 'bg-gray-300/50 hover:bg-gray-300'
+                    }`}
+                    aria-label={`Go to image ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -111,46 +199,33 @@ export default function Hero() {
         </button>
       </div>
 
-      {/* Add custom animations */}
+      {/* Clean, professional animations */}
       <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+        /* Update the image change function for smoother transitions */
+        .changeImage {
+          transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Subtle hover effect on navigation buttons */
+        button:hover .nav-arrow {
+          transform: scale(1.2);
         }
         
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+        /* Elegant pulse for indicator dots */
+        @keyframes subtle-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.7; }
         }
         
-        @keyframes shine {
-          0% { transform: translateX(-100%); opacity: 0; }
-          20% { opacity: 0.2; }
-          30% { opacity: 0.3; }
-          40% { opacity: 0; }
-          100% { transform: translateX(100%); opacity: 0; }
+        /* Clean up existing animation styles that might conflict */
+        .animate-flip-card, .animate-border-pulse, .animate-ripple,
+        .animate-corner-tl, .animate-corner-br {
+          animation: none;
         }
         
-        @keyframes subtle-zoom {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.03); }
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        .animate-spin-slow {
-          animation: spin-slow 25s linear infinite;
-        }
-        
-        .animate-shine {
-          animation: shine 4s ease-in-out infinite;
-          animation-delay: 2s;
-        }
-        
-        .animate-subtle-zoom {
-          animation: subtle-zoom 10s ease-in-out infinite;
+        /* Remove particle animations */
+        .particle-1, .particle-2, .particle-3 {
+          display: none;
         }
       `}</style>
     </section>

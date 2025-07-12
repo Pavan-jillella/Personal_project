@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Download, Eye, FileText, X, Award, BookOpen, Calendar } from 'lucide-react';
+import { Download, Eye, FileText, X, Award, BookOpen, Calendar, Mail, MapPin, Linkedin } from 'lucide-react';
 
 export default function Resume() {
   // State for modal visibility
@@ -213,37 +213,80 @@ export default function Resume() {
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-75 flex items-center justify-center p-4">
           <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-between items-center z-10">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                Pavan Jillella - AI Developer & Founder
-              </h3>
-              <div className="flex space-x-2">
-                <a 
-                  href={resumeData.downloadUrl}
-                  download="Pavan_Jillella_Resume.pdf"
-                  className="inline-flex items-center justify-center space-x-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm font-medium"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Download</span>
-                </a>
-                <button 
-                  onClick={() => setIsModalOpen(false)}
-                  className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
-                </button>
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 z-10">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-center">
+                {/* Title and Contact Info */}
+                <div className="mb-3 md:mb-0">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    Pavan Jillella - AI Developer & Founder
+                  </h3>
+                  
+                  {/* Contact Icons Row - Icons Only with Tooltips */}
+                  <div className="flex items-center space-x-4">
+                    <div className="group relative">
+                      <a 
+                        href={`mailto:${resumeData.content.contact.email}`}
+                        className="p-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-800/40 transition-colors"
+                        aria-label="Send email"
+                      >
+                        <Mail className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      </a>
+                      {/* Email tooltip - Fixed positioning */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-2 py-1 bg-gray-800 text-white text-xs rounded pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                        {resumeData.content.contact.email}
+                      </div>
+                    </div>
+                    
+                    <div className="group relative">
+                      <div className="p-1.5 bg-green-50 dark:bg-green-900/30 rounded-full flex items-center justify-center cursor-pointer hover:bg-green-100 dark:hover:bg-green-800/40 transition-colors">
+                        <MapPin className="w-4 h-4 text-green-600 dark:text-green-400" />
+                      </div>
+                      {/* Location tooltip */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                        {resumeData.content.contact.location}
+                      </div>
+                    </div>
+                    
+                    <div className="group relative">
+                      <a 
+                        href={`https://${resumeData.content.contact.linkedin.replace(/^https?:\/\//, '')}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-1.5 bg-blue-50 dark:bg-blue-900/30 rounded-full flex items-center justify-center cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-800/40 transition-colors"
+                        aria-label="View LinkedIn profile"
+                      >
+                        <Linkedin className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                      </a>
+                      {/* LinkedIn tooltip */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-50">
+                        {resumeData.content.contact.linkedin}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Actions */}
+                <div className="flex space-x-2">
+                  <a 
+                    href={resumeData.downloadUrl}
+                    download="Pavan_Jillella_Resume.pdf"
+                    className="inline-flex items-center justify-center space-x-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm font-medium"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download</span>
+                  </a>
+                  <button 
+                    onClick={() => setIsModalOpen(false)}
+                    className="p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <X className="w-5 h-5 text-gray-500 dark:text-gray-400" />
+                  </button>
+                </div>
               </div>
             </div>
             
             {/* Modal Content */}
             <div className="p-6">
-              {/* Contact Section */}
-              <div className="mb-6 text-center">
-                <p className="text-gray-600 dark:text-gray-300">
-                  {resumeData.content.contact.email} | {resumeData.content.contact.location} | {resumeData.content.contact.linkedin}
-                </p>
-              </div>
-              
               {/* Experience Section */}
               <div className="mb-8">
                 <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">

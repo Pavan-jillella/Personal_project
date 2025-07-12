@@ -114,7 +114,7 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-400 text-sm mb-4 md:mb-0">
-            © 2024 Alex Chen. Built with{' '}
+            © 2024 Pavan Jillella. Built with{' '}
             <Heart className="w-4 h-4 inline text-red-500" />{' '}.
           
           </div>

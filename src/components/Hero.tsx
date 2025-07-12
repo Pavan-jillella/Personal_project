@@ -6,25 +6,51 @@ export default function Hero() {
   const [currentImage, setCurrentImage] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
   
+  // Add job title carousel state
+  const [currentTitle, setCurrentTitle] = useState(0);
+  const [isTitleChanging, setIsTitleChanging] = useState(false);
+  
   const profileImages = [
     "/assets/profile-image.jpg",
     "/assets/profile-image2.jpg",
     "/assets/profile-image3.jpg",
   ];
   
+  // Define job titles to rotate through
+  const jobTitles = [
+    "Data & Business Analyst",
+    "AI Developer",
+    "Founder"
+  ];
+  
   // Auto-rotate images every 5 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
+    const imageInterval = setInterval(() => {
       setIsFlipping(true);
       setTimeout(() => {
         setCurrentImage((prev) => (prev + 1) % profileImages.length);
         setTimeout(() => {
           setIsFlipping(false);
         }, 100);
-      }, 750); // Half the flip animation duration
+      }, 750);
     }, 5000);
     
-    return () => clearInterval(interval);
+    return () => clearInterval(imageInterval);
+  }, []);
+  
+  // Auto-rotate job titles every 3 seconds
+  useEffect(() => {
+    const titleInterval = setInterval(() => {
+      setIsTitleChanging(true);
+      setTimeout(() => {
+        setCurrentTitle((prev) => (prev + 1) % jobTitles.length);
+        setTimeout(() => {
+          setIsTitleChanging(false);
+        }, 300);
+      }, 700);
+    }, 3000);
+    
+    return () => clearInterval(titleInterval);
   }, []);
   
   // Function to handle manual image navigation
@@ -63,10 +89,24 @@ export default function Hero() {
               <h1 className="text-2xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
                 Pavan Jillella
               </h1>
-              <h2 className="text-2xl lg:text-3xl text-blue-600 dark:text-blue-400 font-semibold mb-4">
-                Data & Business Analyst 
-              </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
+              
+              {/* Animated job title */}
+              <div className="relative h-12">
+                {jobTitles.map((title, index) => (
+                  <h2 
+                    key={index}
+                    className={`absolute inset-0 text-2xl lg:text-3xl text-blue-600 dark:text-blue-400 font-semibold transition-all duration-700 ease-in-out ${
+                      currentTitle === index 
+                        ? 'opacity-100 transform-none' 
+                        : 'opacity-0 transform -translate-y-4'
+                    }`}
+                  >
+                    {title}
+                  </h2>
+                ))}
+              </div>
+              
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mt-4">
                 AI-Powered Problem Solver transforming complex data into actionable insights that drive business growth and innovation.
               </p>
             </div>
@@ -204,6 +244,17 @@ export default function Hero() {
         /* Update the image change function for smoother transitions */
         .changeImage {
           transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Title animation */
+        @keyframes titleFadeIn {
+          0% { opacity: 0; transform: translateY(-10px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes titleFadeOut {
+          0% { opacity: 1; transform: translateY(0); }
+          100% { opacity: 0; transform: translateY(10px); }
         }
 
         /* Subtle hover effect on navigation buttons */

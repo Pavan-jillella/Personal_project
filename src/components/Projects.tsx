@@ -82,6 +82,24 @@ export default function Projects() {
 
   const projects = [
     {
+      title: "The JobOrbit – AI-Powered Job Application Automation Platform",
+      role: "Founder & AI Developer",
+      problem: "Job seekers waste countless hours tailoring resumes, applying manually, and struggling with low response rates due to poor targeting and lack of data-driven strategy.",
+      solution: "Built JobOrbit, an AI-powered platform that automates the entire job search journey—resume optimization, job scraping, bulk auto-apply, and real-time analytics. The system uses GPT-based resume tailoring, job-candidate matching algorithms, and automation to apply to hundreds of jobs per day with precision.",
+      results: [
+        "10x faster job applications through automated workflows",
+        "70% increase in interview callbacks (based on early user cohort)",
+        "Personalized analytics dashboard to track applications, match scores, and recruiter engagement",
+        "Integrated GPT Models for custom resume + cover letter generation based on job descriptions"
+
+      ],
+      tech: ["React.js", "Next.js", "Firebase", "Node.js", "Python","OpenAI API","Puppeteer","Selenium","TailwindCSS","AWS","SQL","PostgreSQL"],
+      image: "/project/JB.png",
+      github: "https://github.com/Pavan-jillella/Stanley-Martin-Homes-Power-BI-Dashboard",
+      demo: "https://github.com/Pavan-jillella/Stanley-Martin-Homes-Power-BI-Dashboard"
+    },
+    
+    {
       title: "Construction Analytics & Workforce Performance Optimization",
       role: "Power BI Analyst",
       problem: "Stanley Martin Homes faced challenges in tracking worker performance, budget utilization, and construction activity delays across multiple phases and counties.",

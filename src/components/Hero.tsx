@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; // Remove unused React import
 import { ChevronDown, Download, Mail, Linkedin, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function Hero() {
@@ -8,7 +8,7 @@ export default function Hero() {
   
   // Add job title carousel state
   const [currentTitle, setCurrentTitle] = useState(0);
-  const [isTitleChanging, setIsTitleChanging] = useState(false);
+  const [isTitleChanging, setIsTitleChanging] = useState(false); // Will use this in title transitions
   
   const profileImages = [
     "/assets/profile-image.jpg",
@@ -41,11 +41,11 @@ export default function Hero() {
   // Auto-rotate job titles every 3 seconds
   useEffect(() => {
     const titleInterval = setInterval(() => {
-      setIsTitleChanging(true);
+      setIsTitleChanging(true); // Using the state variable
       setTimeout(() => {
         setCurrentTitle((prev) => (prev + 1) % jobTitles.length);
         setTimeout(() => {
-          setIsTitleChanging(false);
+          setIsTitleChanging(false); // Using the state variable
         }, 300);
       }, 700);
     }, 3000);
@@ -53,8 +53,8 @@ export default function Hero() {
     return () => clearInterval(titleInterval);
   }, []);
   
-  // Function to handle manual image navigation
-  const changeImage = (direction) => {
+  // Function to handle manual image navigation - Fix 'any' type
+  const changeImage = (direction: 'prev' | 'next') => {
     setIsFlipping(true);
     setTimeout(() => {
       if (direction === 'next') {
@@ -65,7 +65,7 @@ export default function Hero() {
       setTimeout(() => {
         setIsFlipping(false);
       }, 100);
-    }, 750); // Half the flip animation duration
+    }, 750);
   };
 
   const scrollToNextSection = () => {
@@ -240,8 +240,8 @@ export default function Hero() {
       </div>
 
       {/* Clean, professional animations */}
-      <style jsx global>{`
-        /* Update the image change function for smoother transitions */
+      <style dangerouslySetInnerHTML={{ __html: `
+        /* Image transition animations */
         .changeImage {
           transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
@@ -257,28 +257,16 @@ export default function Hero() {
           100% { opacity: 0; transform: translateY(10px); }
         }
 
-        /* Subtle hover effect on navigation buttons */
+        /* Other animations */
         button:hover .nav-arrow {
           transform: scale(1.2);
         }
         
-        /* Elegant pulse for indicator dots */
         @keyframes subtle-pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.7; }
         }
-        
-        /* Clean up existing animation styles that might conflict */
-        .animate-flip-card, .animate-border-pulse, .animate-ripple,
-        .animate-corner-tl, .animate-corner-br {
-          animation: none;
-        }
-        
-        /* Remove particle animations */
-        .particle-1, .particle-2, .particle-3 {
-          display: none;
-        }
-      `}</style>
+      `}} />
     </section>
   );
 }

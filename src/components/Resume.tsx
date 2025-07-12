@@ -167,7 +167,7 @@ export default function Resume() {
                     </div>
                     <div>
                       <h4 className="font-medium text-gray-900 dark:text-white">MS in Data Analytics Engineering</h4>
-                      <p className="text-sm text-green-600 dark:text-green-400 mb-2">George Mason University | 2024</p>
+                      <p className="text-sm text-green-600 dark:text-green-400 mb-2">George Mason University | 2022 - 2024</p>
                     </div>
                   </div>
 

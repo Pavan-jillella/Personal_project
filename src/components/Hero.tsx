@@ -34,7 +34,7 @@ export default function Hero() {
 
             <div className="flex justify-center lg:justify-start space-x-4">
               <a 
-                href="https://www.linkedin.com/in/your-linkedin-profile" 
+                href="https://www.linkedin.com/in/pavan-jillella" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-110"
@@ -42,7 +42,7 @@ export default function Hero() {
                 <Linkedin className="w-6 h-6 text-blue-600" />
               </a>
               <a 
-                href="https://github.com/your-github-username" 
+                href="https://github.com/pavanjillella" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-110"
@@ -50,15 +50,16 @@ export default function Hero() {
                 <Github className="w-6 h-6 text-gray-700 dark:text-gray-300" />
               </a>
               <a 
-                href="mailto:your.email@example.com" 
+                href="mailto:pavanjillella.1711@gmail.com" 
                 className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-110"
               >
                 <Mail className="w-6 h-6 text-teal-600" />
               </a>
               <a 
-                href="#" 
+                href="/assets/Pavan_Jillella_Resume.pdf" 
                 download
                 className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-110"
+                title="Download Resume"
               >
                 <Download className="w-6 h-6 text-blue-600" />
               </a>

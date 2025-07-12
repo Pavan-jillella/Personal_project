@@ -25,6 +25,10 @@ export default function About() {
             </p>
 
             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+              In addition to my work as a data professional, I'm also an AI developer and founder, focused on building innovative solutions that bridge the gap between data science and real-world applications.
+            </p>
+
+             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
               When I'm not diving deep into data, you'll find me exploring the latest trends in machine learning, contributing to open-source projects, or mentoring aspiring data professionals. I believe that great insights come from combining technical expertise with creative problem-solving.
             </p>
           </div>

@@ -1,7 +1,50 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Database, BarChart3, Brain, Code, Cloud, Users } from 'lucide-react';
 
+// Add this custom hook at the top of your file
+function useInView(options = {}) {
+  const [isInView, setIsInView] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInView(entry.isIntersecting);
+    }, options);
+    
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [options]);
+
+  return [ref, isInView];
+}
+
 export default function Skills() {
+  // Define animation styles
+  const styles = `
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-20px);}
+      60% {transform: translateY(-10px);}
+    }
+  `;
+
+  // Move useEffect inside the component
+  useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = styles;
+    document.head.appendChild(styleElement);
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
+
   const skillCategories = [
     {
       title: "Data Analysis & Visualization",
@@ -67,6 +110,10 @@ export default function Skills() {
     { name: "Continuous Learning", icon: Code, color: "red" }
   ];
 
+  // Add these refs for each section
+  const [skillsRef, skillsInView] = useInView({ threshold: 0.1 });
+  const [softSkillsRef, softSkillsInView] = useInView({ threshold: 0.1 });
+
   const getColorClasses = (color: string) => {
     const colors = {
       blue: "bg-blue-500",
@@ -102,9 +149,20 @@ export default function Skills() {
         </div>
 
         {/* Technical Skills */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div 
+          ref={skillsRef}
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
+        >
           {skillCategories.map((category, index) => (
-            <div key={index} className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div 
+              key={index} 
+              className={`bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg transition-all duration-700 ${
+                skillsInView 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
+            >
               <div className="flex items-center mb-4">
                 <category.icon className={`w-8 h-8 ${category.color === 'blue' ? 'text-blue-600' : 
                   category.color === 'teal' ? 'text-teal-600' : 
@@ -126,8 +184,11 @@ export default function Skills() {
                     </div>
                     <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                       <div 
-                        className={`h-2 rounded-full ${getColorClasses(category.color)} transition-all duration-1000 ease-out`}
-                        style={{ width: `${skill.level}%` }}
+                        className={`h-2 rounded-full ${getColorClasses(category.color)}`}
+                        style={{ 
+                          width: skillsInView ? `${skill.level}%` : '0%',
+                          transition: `width 1s ease-out ${skillIndex * 0.2 + 0.5}s` 
+                        }}
                       ></div>
                     </div>
                   </div>
@@ -138,14 +199,28 @@ export default function Skills() {
         </div>
 
         {/* Soft Skills */}
-        <div className="bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg">
+        <div 
+          ref={softSkillsRef}
+          className={`bg-white dark:bg-gray-900 rounded-xl p-8 shadow-lg transition-all duration-700 ${
+            softSkillsInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+          }`}
+        >
           <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
             Core Competencies
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {softSkills.map((skill, index) => (
-              <div key={index} className="text-center p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">
-                <skill.icon className={`w-8 h-8 ${getTextColorClasses(skill.color)} mx-auto mb-2`} />
+              <div 
+                key={index} 
+                className="text-center p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300"
+                style={{ 
+                  transitionDelay: `${index * 100}ms`,
+                  animation: softSkillsInView ? `bounce 0.6s ease ${index * 0.1}s` : 'none'
+                }}
+              >
+                <skill.icon 
+                  className={`w-8 h-8 ${getTextColorClasses(skill.color)} mx-auto mb-2 transform transition-transform hover:scale-110 duration-300`} 
+                />
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {skill.name}
                 </p>

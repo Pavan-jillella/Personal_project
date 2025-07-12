@@ -1,7 +1,83 @@
-import React from 'react';
-import { ExternalLink, Github, TrendingUp, Users, DollarSign, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ExternalLink, Github, TrendingUp, Users, DollarSign, Clock, X, Send } from 'lucide-react';
 
 export default function Projects() {
+  // Add state for modal visibility
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Add form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    projectDetails: '',
+    budget: '',
+    timeline: '',
+    message: ''
+  });
+
+  // Define animation styles
+  const modalAnimation = `
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  `;
+
+  // Move the useEffect inside the component
+  useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.innerHTML = modalAnimation;
+    document.head.appendChild(styleElement);
+    
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
+
+  // Form handling functions
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Here you would typically send the data to a server
+    console.log('Form submitted:', formData);
+    try {
+      const response = await fetch('https://formspree.io/f/xgvyoggz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      if (response.ok) {
+        // Reset form and close modal
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          projectDetails: '',
+          budget: '',
+          timeline: '',
+          message: ''
+        });
+        setIsModalOpen(false);
+        // Show success message (you can implement this with a toast notification)
+        alert('Thanks for your inquiry! I will contact you soon.');
+      } else {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      alert('There was a problem submitting your form. Please try again later.');
+    }
+  };
+
   const projects = [
     {
       title: "E-commerce Customer Segmentation & Predictive Analytics",
@@ -147,11 +223,170 @@ export default function Projects() {
         </div>
 
         <div className="text-center mt-12">
-          <button className="inline-flex items-center space-x-2 bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105">
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="inline-flex items-center space-x-2 bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105"
+          >
             <Users className="w-5 h-5" />
             <span>Hire Me for Similar Work</span>
           </button>
         </div>
+
+        {/* Contact Form Modal */}
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div 
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full p-6 relative animate-fadeIn"
+              style={{ animation: 'fadeIn 0.3s ease-out' }}
+            >
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                Let's Work Together
+              </h3>
+              
+              <p className="text-gray-600 dark:text-gray-300 mb-6">
+                Please fill out this form with your project details, and I'll get back to you within 24-48 hours.
+              </p>
+              
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    placeholder="Your name"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Phone (optional)
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    placeholder="Your phone number"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="projectDetails" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Project Details *
+                  </label>
+                  <textarea
+                    id="projectDetails"
+                    name="projectDetails"
+                    value={formData.projectDetails}
+                    onChange={handleInputChange}
+                    required
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    placeholder="Describe your project needs"
+                  ></textarea>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="budget" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Budget Range
+                    </label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    >
+                      <option value="">Select...</option>
+                      <option value="$1,000 - $5,000">$1,000 - $5,000</option>
+                      <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                      <option value="$10,000 - $25,000">$10,000 - $25,000</option>
+                      <option value="$25,000+">$25,000+</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="timeline" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Timeline
+                    </label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      value={formData.timeline}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    >
+                      <option value="">Select...</option>
+                      <option value="Less than 1 month">Less than 1 month</option>
+                      <option value="1-3 months">1-3 months</option>
+                      <option value="3-6 months">3-6 months</option>
+                      <option value="6+ months">6+ months</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Additional Information
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    rows={2}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                    placeholder="Any other details you'd like to share"
+                  ></textarea>
+                </div>
+                
+                <div className="pt-2">
+                  <button
+                    type="submit"
+                    className="w-full flex justify-center items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
+                  >
+                    <Send className="w-5 h-5" />
+                    <span>Submit Inquiry</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+        
       </div>
     </section>
   );

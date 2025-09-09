@@ -35,66 +35,8 @@ export default function Experience() {
       ],
       skills: ["Python", "SQL", "Tableau", "AWS", "Machine Learning"]
     },
-    {
-      title: "Data Analyst",
-      company: "Morgan Stanley",
-      logo: "/logos/ms.png",
-      location: "New York, NY",
-      period: "Jan 2024 - Nov 2024",
-      type: "Contract",
-      description: "Specialized in Financial Analytics and Operational Intelligence, delivering actionable insights for portfolio networks and investors to optimize performance, manage risk, and drive data-informed investment strategies.",
-      achievements: [
-        "Conducted advanced EDA using SQL, Python, and R, uncovering trends and patterns to support strategic business decisions",
-        "Designed Tableau and Power BI dashboards, improving reporting efficiency and enabling actionable insights for stakeholders.",
-        "Applied clustering, segmentation, and hypothesis testing to validate hypotheses, uncover patterns, and drive business insights.",
-        "Built ARIMA and time-series forecasting models for proactive planning and informed decision-making in dynamic markets.",
-        "Defined KPIs with stakeholders, designing frameworks to monitor real time metrics, supporting data-driven decision-making.",
-        "Performed customer segmentation and market studies, producing analytical reports aligned with business goals and priorities."
 
-      ],
-      skills: ["Power BI", "SQL Server", "Azure", "DAX", "Healthcare Analytics"]
-    },
-    {
-      title: "Business Analyst",
-      company: "Stryker",
-      logo: "/logos/Stryker.png",
-      location: "Bengaluru, India",
-      period: "Mar 2021 – July 2022",
-      type: "Full-time",
-      description: "Collaborated with cross-functional teams to drive product enhancements, improve customer experience, and support strategic business initiatives.",
-      achievements: [
-      "Elicited and documented detailed business requirements through stakeholder collaboration, ensuring project alignment",
-    "Conducted market and competitor analysis to define product roadmaps and prioritize features for improved product fit",
-    "Led user research and pain point analysis to enhance usability and drive higher engagement",
-    "Analyzed customer journey data to uncover retention drivers and support product optimization strategies",
-    "Defined KPIs and developed dashboards to support data-driven decision-making across the product lifecycle",
-    "Participated in Agile sprint planning and backlog grooming to ensure timely delivery of high-value features",
-    "Authored BRDs and specifications to align stakeholder expectations with technical implementation",
-    "Facilitated workshops and cross-functional alignment meetings to maintain momentum and clarity",
-    "Built and maintained Power BI dashboards to track operational performance and business health metrics",
-    "Performed SWOT analysis for new initiatives to evaluate risk, opportunity, and strategic alignment"
-  ],
-  "skills": ["Power BI", "Agile", "BRD", "Stakeholder Management", "Product Analytics", "SWOT Analysis", "Requirements Gathering"]
-},
-    {
-  title: "Data Analyst",
-  company: "Walmart Global Tech",
-  logo: "/logos/w.png",
-  location:"Bengaluru, India",
-  period: "Feb 2019 – Feb 2021",
-  type: "Full-time",
-  description: "Leveraged advanced analytics and predictive modeling to support data-driven marketing, customer insights, and go-to-market strategies.",
-  achievements: [
-    "Analyzed large datasets using Python, SQL, and Tableau to uncover insights driving marketing and sales strategies",
-    "Built predictive models including regression, clustering, and time series forecasting to anticipate customer behavior",
-    "Executed A/B testing and ROI analysis to evaluate marketing campaigns and improve engagement",
-    "Implemented K-Means clustering for customer segmentation to enhance targeting precision",
-    "Performed competitive and market analysis to support pricing and positioning strategies",
-    "Conducted funnel analysis to identify conversion bottlenecks and improve user flow",
-    "Used cohort and survival analysis to assess churn risk and develop retention strategies"
-  ],
-  "skills": ["Python", "SQL", "Tableau", "A/B Testing", "Predictive Modeling", "Customer Segmentation", "Cohort Analysis"]
-}
+
   ];
 
   return (
